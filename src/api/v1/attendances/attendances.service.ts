@@ -7,4 +7,19 @@ export class AttendancesService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.attendance);
   }
+
+  /**
+   * 打卡签到
+   * @param userId
+   * @param remarks
+   * @returns
+   */
+  checkIn(userId: string, remarks: string) {
+    return this.prisma.attendance.create({
+      data: {
+        employeeId: userId,
+        remarks,
+      },
+    });
+  }
 }

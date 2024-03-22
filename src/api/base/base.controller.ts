@@ -1,4 +1,13 @@
-import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Delete,
+  Get,
+  Param,
+  // Patch,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
 import { QueryInfo, DeleteManyInfo } from './dto/base.dto';
@@ -69,7 +78,7 @@ export class BaseController {
   @ApiOperation({
     summary: '修改',
   })
-  @Patch(':id')
+  @Put(':id')
   @ApiBody({ type: Object })
   update(@Param('id') id: string, @Body() updateData) {
     return this.service.update(id, updateData);

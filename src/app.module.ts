@@ -10,6 +10,7 @@ import { EmployeesModule } from './api/v1/employees/employees.module';
 import { AttendancesModule } from './api/v1/attendances/attendances.module';
 import { LeavesModule } from './api/v1/leaves/leaves.module';
 import { LeaveCategoriesModule } from './api/v1/leave_categories/leave_categories.module';
+import { RolesModule } from './api/v1/roles/roles.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LeaveCategoriesModule } from './api/v1/leave_categories/leave_categorie
     LeaveCategoriesModule,
     LeavesModule,
     AttendancesModule,
+    RolesModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService, CommonService],

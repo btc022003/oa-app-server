@@ -15,3 +15,10 @@ export class DeleteManyInfo {
   @IsNotEmpty()
   ids: string;
 }
+
+export class ExtraData {
+  @ApiProperty({
+    description: '备注数据',
+  })
+  remarks: string;
+}

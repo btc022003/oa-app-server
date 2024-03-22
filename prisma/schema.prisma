@@ -99,7 +99,7 @@ model Leave {
   startTime       DateTime      @map("start_time")
   endTime         DateTime      @map("end_time")
   durations       Float // 时长
-  leavecategory   LeaveCategory @relation(fields: [leaveCategoryId], references: [id])
+  leaveCategory   LeaveCategory @relation(fields: [leaveCategoryId], references: [id])
   leaveCategoryId String        @map("leave_category_id") // 假期id
 
   createdAt DateTime @default(now()) @map("created_at")

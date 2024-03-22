@@ -47,7 +47,7 @@ export class EmployeesController extends BaseController {
     //
     if (req.user.userName != 'admin') {
       return this.employeesService.updatePWD(
-        '',
+        req.user.id,
         resetPwd.oldPassword,
         resetPwd.password,
       );
@@ -59,27 +59,4 @@ export class EmployeesController extends BaseController {
       };
     }
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.employeesService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.employeesService.findOne(id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateEmployeeDto: UpdateEmployeeDto,
-  // ) {
-  //   return this.employeesService.update(id, updateEmployeeDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.employeesService.remove(id);
-  // }
 }
