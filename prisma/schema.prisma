@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 员工员
+model Employee {
+  id       String @id @default(uuid())
+  userName String @unique @map("user_name")
+  password String
+  avatar   String @default("")
+  nickName String @default("") @map("nick_name")
+  realName String @default("") @map("real_name")
+
+  holidayLength Float @default(0) @map("holiday_length") // 假期时长
+
+  role        Role?        @relation(fields: [roleId], references: [id])
+  roleId      String?      @map("role_id")
+  attendances Attendance[]
+  Leave       Leave[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("employees")
+}
+
+// 角色
+model Role {
+  id                String               @id @default(uuid())
+  name              String               @unique
+  desc              String               @default("")
+  permissionOnRoles PermissionsOnRoles[]
+
+  employees Employee[]
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  @@map("roles")
+}
+
+// 权限
+model Permission {
+  id   String @id @default(uuid())
+  name String
+  desc String @default("")
+
+  parent Permission? @relation("PermissionToPermission", fields: [permissionId], references: [id])
+
+  permissionOnRoles PermissionsOnRoles[]
+
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  permissionId String?      @map("permission_id")
+  permission   Permission[] @relation("PermissionToPermission")
+
+  @@map("permissions")
+}
+
+model PermissionsOnRoles {
+  id           String      @id @default(uuid())
+  role         Role?       @relation(fields: [roleId], references: [id])
+  roleId       String?     @map("role_id")
+  permission   Permission? @relation(fields: [permissionId], references: [id])
+  permissionId String?     @map("permission_id")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  @@map("permissions_on_roles")
+}
+
+// 出勤记录
+model Attendance {
+  id         String   @id @default(uuid())
+  remarks    String   @default("")
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String   @map("employee_id") // 员工id
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("attendances")
+}
+
+// 请假
+model Leave {
+  id String @id @default(uuid())
+
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String   @map("employee_id") // 员工id
+
+  startTime       DateTime      @map("start_time")
+  endTime         DateTime      @map("end_time")
+  durations       Float // 时长
+  leavecategory   LeaveCategory @relation(fields: [leaveCategoryId], references: [id])
+  leaveCategoryId String        @map("leave_category_id") // 假期id
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("leaves")
+}
+
+// 假期类型
+model LeaveCategory {
+  id String @id @default(uuid())
+
+  name    String
+  remarks String @default("")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  Leave     Leave[]
+
+  @@map("leave_categories")
+}
+
+// 会员
+// model User {
+//   id       String @id @default(uuid())
+//   userName String @unique @map("user_name") // 用户名就是手机号
+//   password String @default("123456")
+//   // mobile        String  @default("")
+//   realName String @default("") @map("real_name")
+//   gender   String @default("男")
+//   station  String @default("技工")
+//   avatar   String @default("")
+//   nickName String @default("") @map("nick_name")
+
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime @updatedAt @map("updated_at")
+
+//   @@map("users")
+// }
+
+// model Activity {
+//   id         String   @id @default(uuid())
+//   coverImage String   @default("") @map("cover_image")
+//   name       String   @default("")
+//   desc       String   @default("")
+//   content    String   @default("")
+//   createdAt  DateTime @default(now()) @map("created_at")
+//   updatedAt  DateTime @updatedAt @map("updated_at")
+
+//   @@map("activities")
+// }
