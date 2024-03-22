@@ -8,6 +8,7 @@ export class EmployeesService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.employee, {
       role: true,
+      department: true,
     });
   }
 

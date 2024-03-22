@@ -1,6 +1,6 @@
 import {
   Controller,
-  // Get,
+  Get,
   Post,
   Body,
   Req,
@@ -13,7 +13,7 @@ import { EmployeesService } from './employees.service';
 import { ModifyPwdBody } from './dto/create-employee.dto';
 // import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { BaseController } from 'src/api/base/base.controller';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('员工管理')
 @Controller('/api/v1/employees')
@@ -22,11 +22,17 @@ export class EmployeesController extends BaseController {
     super(employeesService);
   }
 
-  // @Get()
-  // loadInfo() {
+  @ApiOperation({
+    summary: '获取当前登录的用户信息',
+  })
+  @Get('user/info')
+  loadInfo(@Req() req) {
+    return this.employeesService.findOne(req.user.id);
+  }
 
-  // }
-
+  @ApiOperation({
+    summary: '重置指定用户的密码',
+  })
   @Post('pwd/reset/:id')
   async resetPwd(@Param() params) {
     //
@@ -42,6 +48,9 @@ export class EmployeesController extends BaseController {
     }
   }
 
+  @ApiOperation({
+    summary: '修改用户密码',
+  })
   @Post('pwd/modify')
   modifyPwd(@Req() req, @Body() resetPwd: ModifyPwdBody) {
     //
