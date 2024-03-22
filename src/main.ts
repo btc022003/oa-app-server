@@ -127,7 +127,7 @@ async function initDbData() {
     '新闻实际',
     '文件模板',
   ];
-  const aC = await prisma.leaveCategory.count();
+  const aC = await prisma.articleCategory.count();
   if (aC == 0) {
     await Promise.all(
       articleCategories.map((item) =>

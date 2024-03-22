@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 员工员
+// 员工
 model Employee {
   id       String @id @default(uuid())
   userName String @unique @map("user_name")
@@ -26,8 +26,13 @@ model Employee {
   attendances Attendance[]
   Leave       Leave[]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  department   Department? @relation(fields: [departmentId], references: [id])
+  departmentId String?     @map("department_id")
+  isManager    Boolean     @default(false) @map("is_manager")
+
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  LeaveCheckLog LeaveCheckLog[]
 
   @@map("employees")
 }
@@ -102,10 +107,28 @@ model Leave {
   leaveCategory   LeaveCategory @relation(fields: [leaveCategoryId], references: [id])
   leaveCategoryId String        @map("leave_category_id") // 假期id
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  leaveCheckLogs LeaveCheckLog[]
 
   @@map("leaves")
+}
+
+model LeaveCheckLog {
+  id String @id @default(uuid())
+
+  leave Leave @relation(fields: [leaveId], references: [id]) // 请假记录
+
+  owner   Employee @relation(fields: [employeeId], references: [id]) // 审批人
+  lev     Int      @default(1)
+  isCheck Boolean  @default(false) @map("is_check") // 是否审批
+
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  leaveId    String   @map("leave_id")
+  employeeId String   @map("employee_id")
+
+  @@map("leave_check_logs")
 }
 
 // 假期类型
@@ -152,6 +175,25 @@ model Article {
   articleCategoryId String?          @map("article_category_id")
 
   @@map("articles")
+}
+
+// 部门，公司组织架构
+model Department {
+  id      String @id @default(uuid())
+  name    String @default("")
+  desc    String @default("") // @db.Text
+  content String @default("") // @db.Text
+  image   String @default("")
+
+  parent       Department?  @relation("DepartmentToDepartment", fields: [departmentId], references: [id])
+  dsepartment  Department[] @relation("DepartmentToDepartment")
+  departmentId String?      @map("department_id")
+
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  Employee  Employee[]
+
+  @@map("departments")
 }
 
 // 会员

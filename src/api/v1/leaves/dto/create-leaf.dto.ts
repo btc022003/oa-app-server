@@ -28,4 +28,27 @@ export class CreateLeaveDto {
     message: '请输入请假时长',
   })
   durations: number;
+
+  @ApiProperty({
+    description: '审批人',
+    default: '',
+  })
+  @IsNotEmpty({
+    message: '多个人用,分割',
+  })
+  checkers: string;
+}
+
+export class CheckLog {
+  @ApiProperty({
+    description: '是否同意',
+    default: true,
+  })
+  isCheck: boolean;
+
+  @ApiProperty({
+    description: '需要审批的记录id',
+    default: true,
+  })
+  logId: string;
 }
