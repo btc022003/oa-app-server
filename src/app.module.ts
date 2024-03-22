@@ -11,6 +11,8 @@ import { AttendancesModule } from './api/v1/attendances/attendances.module';
 import { LeavesModule } from './api/v1/leaves/leaves.module';
 import { LeaveCategoriesModule } from './api/v1/leave_categories/leave_categories.module';
 import { RolesModule } from './api/v1/roles/roles.module';
+import { ArticleCategoriesModule } from './api/v1/article-categories/article-categories.module';
+import { ArticlesModule } from './api/v1/articles/articles.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { RolesModule } from './api/v1/roles/roles.module';
     LeavesModule,
     AttendancesModule,
     RolesModule,
+    ArticleCategoriesModule,
+    ArticlesModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService, CommonService],

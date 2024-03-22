@@ -122,6 +122,38 @@ model LeaveCategory {
   @@map("leave_categories")
 }
 
+// 文章资讯类
+model ArticleCategory {
+  id        String   @id @default(uuid())
+  name      String   @default("")
+  desc      String   @default("") // @db.Text
+  image     String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  articles Article[]
+
+  @@map("article_categories")
+}
+
+// 文章资讯数据
+model Article {
+  id        String   @id @default(uuid())
+  name      String   @default("")
+  desc      String   @default("") // @db.Text
+  tags      String   @default("") // 主治的症状标签，多个用,分割
+  image     String   @default("")
+  content   String   @default("") // @db.Text
+  views     Decimal  @default(20) // 浏览次数
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  category          ArticleCategory? @relation(fields: [articleCategoryId], references: [id])
+  articleCategoryId String?          @map("article_category_id")
+
+  @@map("articles")
+}
+
 // 会员
 // model User {
 //   id       String @id @default(uuid())

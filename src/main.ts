@@ -118,5 +118,26 @@ async function initDbData() {
       ),
     );
   }
+
+  // 文章分类
+  const articleCategories = [
+    '公告',
+    '会议',
+    '宣传文案',
+    '新闻实际',
+    '文件模板',
+  ];
+  const aC = await prisma.leaveCategory.count();
+  if (aC == 0) {
+    await Promise.all(
+      articleCategories.map((item) =>
+        prisma.articleCategory.create({
+          data: {
+            name: item,
+          },
+        }),
+      ),
+    );
+  }
   console.log('数据初始化完成');
 }
