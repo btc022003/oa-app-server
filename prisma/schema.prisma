@@ -100,6 +100,7 @@ model Leave {
 
   employee   Employee @relation(fields: [employeeId], references: [id])
   employeeId String   @map("employee_id") // 员工id
+  desc       String   @default("")
 
   startTime       DateTime      @map("start_time")
   endTime         DateTime      @map("end_time")
@@ -117,7 +118,7 @@ model Leave {
 model LeaveCheckLog {
   id String @id @default(uuid())
 
-  leave Leave @relation(fields: [leaveId], references: [id]) // 请假记录
+  leave Leave? @relation(fields: [leaveId], references: [id], onDelete: Cascade) // 请假记录
 
   owner   Employee @relation(fields: [employeeId], references: [id]) // 审批人
   lev     Int      @default(1)
@@ -125,7 +126,7 @@ model LeaveCheckLog {
 
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
-  leaveId    String   @map("leave_id")
+  leaveId    String?  @map("leave_id")
   employeeId String   @map("employee_id")
 
   @@map("leave_check_logs")

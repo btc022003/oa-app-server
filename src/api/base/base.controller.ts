@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
@@ -45,7 +46,8 @@ export class BaseController {
   //   },
   // })
   @Get()
-  index(@Query() query: QueryInfo) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  index(@Query() query: QueryInfo, @Req() req) {
     const { page, per } = query;
     const where: any = {};
     // if (query.name) {

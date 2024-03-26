@@ -37,6 +37,15 @@ export class CreateLeaveDto {
     message: '多个人用,分割',
   })
   checkers: string;
+
+  @ApiProperty({
+    description: '请假类型',
+    default: '',
+  })
+  @IsNotEmpty({
+    message: '请假类型不能为空',
+  })
+  leaveCategoryId: string;
 }
 
 export class CheckLog {

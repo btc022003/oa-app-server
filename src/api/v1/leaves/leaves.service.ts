@@ -6,8 +6,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class LeavesService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.leave, {
-      employee: true,
+      employee: {
+        include: {
+          department: true,
+        },
+      },
       leaveCategory: true,
+      leaveCheckLogs: {
+        include: {
+          owner: true,
+        },
+      },
     });
   }
 
@@ -25,6 +34,7 @@ export class LeavesService extends BaseService {
         startTime: new Date(data.startTime),
         endTime: new Date(data.endTime),
         durations: Number(data.durations),
+        // employId,
       },
     });
 
@@ -42,6 +52,49 @@ export class LeavesService extends BaseService {
     );
 
     return leave;
+  }
+
+  /**
+   * 获取待我审批的记录
+   * @param ownerId
+   * @returns
+   */
+  async loadCheckLogs(ownerId: string, page: number, per: number) {
+    page = isNaN(page) ? 1 : page * 1;
+    per = isNaN(per) ? 10 : per * 1;
+    const where = { employeeId: ownerId };
+    const list = await this.prisma.leaveCheckLog.findMany({
+      where,
+      skip: (page - 1) * per,
+      take: per * 1,
+      include: {
+        owner: {
+          include: {
+            department: true,
+          },
+        },
+        leave: {
+          include: {
+            employee: {
+              include: {
+                department: true,
+              },
+            },
+            leaveCategory: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    const total = await this.prisma.leaveCheckLog.count({ where });
+    return {
+      list,
+      current: page,
+      pageSize: per,
+      total,
+    };
   }
 
   /**

@@ -5,7 +5,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class AttendancesService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
-    super(prisma.attendance);
+    super(prisma.attendance, {
+      employee: {
+        include: {
+          department: true,
+        },
+      },
+    });
   }
 
   /**

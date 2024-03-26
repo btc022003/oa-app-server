@@ -79,4 +79,16 @@ export class EmployeesService extends BaseService {
       };
     }
   }
+
+  /**
+   * 加载审批人
+   * @returns
+   */
+  async loadLeaveCheckers() {
+    return this.prisma.employee.findMany({
+      where: {
+        isManager: true,
+      },
+    });
+  }
 }

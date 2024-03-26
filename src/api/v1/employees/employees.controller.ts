@@ -25,6 +25,14 @@ export class EmployeesController extends BaseController {
   @ApiOperation({
     summary: '获取当前登录的用户信息',
   })
+  @Get('user/leave_checkers')
+  loadLeaveChecksInfo() {
+    return this.employeesService.loadLeaveCheckers();
+  }
+
+  @ApiOperation({
+    summary: '获取当前登录的用户信息',
+  })
   @Get('user/info')
   loadInfo(@Req() req) {
     return this.employeesService.findOne(req.user.id);

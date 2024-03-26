@@ -12,6 +12,51 @@ export class AttendancesController extends BaseController {
   }
 
   @ApiOperation({
+    summary: '分页形式获取列表数据',
+  })
+  @ApiQuery({
+    name: 'page',
+    description: '页码',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 1,
+    },
+  })
+  @ApiQuery({
+    name: 'per',
+    description: '每页显示的数量',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 10,
+    },
+  })
+  // @ApiQuery({
+  //   name: 'name',
+  //   description: '查询关键词,如果用name属性的时候使用',
+  //   required: false,
+  //   schema: {
+  //     type: 'string',
+  //     default: '',
+  //   },
+  // })
+  @Get()
+  index(@Query() query: QueryInfo, @Req() req) {
+    const { page, per } = query;
+    const where: any = {};
+
+    // 非管理员只能查看自己的记录
+    if (req.user.userName != 'admin') {
+      where.employeeId = req.user.id;
+    }
+    // if (query.name) {
+    //   where.name = { contains: query.name };
+    // }
+    return this.attendancesService.findAll(where, page, per);
+  }
+
+  @ApiOperation({
     summary: '员工签到',
   })
   @Post('user/check_in')
