@@ -58,7 +58,7 @@ export class LeavesController extends BaseController {
   })
   @Post('user/leave')
   askLeave(@Req() req, @Body() data: CreateLeaveDto) {
-    console.log(data);
+    // console.log(data);
     //
     const { checkers, ...leaveInfo } = data;
     return this.leavesService.create(
