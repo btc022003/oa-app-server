@@ -13,6 +13,7 @@ import { LeaveCategoriesModule } from './api/v1/leave_categories/leave_categorie
 import { RolesModule } from './api/v1/roles/roles.module';
 import { ArticleCategoriesModule } from './api/v1/article-categories/article-categories.module';
 import { ArticlesModule } from './api/v1/articles/articles.module';
+import { DepartmentsModule } from './api/v1/departments/departments.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ArticlesModule } from './api/v1/articles/articles.module';
     RolesModule,
     ArticleCategoriesModule,
     ArticlesModule,
+    DepartmentsModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService, CommonService],
