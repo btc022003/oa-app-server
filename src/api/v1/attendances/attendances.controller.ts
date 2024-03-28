@@ -2,7 +2,8 @@ import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { AttendancesService } from './attendances.service';
 import { BaseController } from 'src/api/base/base.controller';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { ExtraData, QueryInfo } from 'src/api/base/dto/base.dto';
+import { QueryInfo } from 'src/api/base/dto/base.dto';
+import { AttendanceData } from './entities/attendance.entity';
 
 @ApiTags('员工出勤')
 @Controller('/api/v1/attendances')
@@ -60,9 +61,9 @@ export class AttendancesController extends BaseController {
     summary: '员工签到',
   })
   @Post('user/check_in')
-  checkIn(@Req() req, @Body() info: ExtraData) {
+  checkIn(@Req() req, @Body() info: AttendanceData) {
     // 签到
-    return this.attendancesService.checkIn(req.user.id, info.remarks);
+    return this.attendancesService.checkIn(req.user.id, info);
   }
 
   @ApiOperation({

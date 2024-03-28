@@ -197,6 +197,20 @@ model Department {
   @@map("departments")
 }
 
+model CheckPosition {
+  id      String @id @default(uuid())
+  name    String
+  remarks String @default("")
+
+  lat Float @default(0)
+  lng Float @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("check_positions")
+}
+
 // 会员
 // model User {
 //   id       String @id @default(uuid())

@@ -73,3 +73,37 @@ export const validateCaptchaIsOutDated = (createdAt: Date) => {
  * @returns
  */
 export const beforeTwoWeeks = () => dayjs().add(-2, 'w');
+
+// 角度转弧度函数
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
+
+/**
+ * 计算两个坐标的距离，返回km为单位的长度
+ * @param lat1
+ * @param lon1
+ * @param lat2
+ * @param lon2
+ * @returns
+ */
+export const twoPointDistance: (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+) => number = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+  const R = 6371; // 地球半径，单位：千米
+  const dLat = deg2rad(lat2 - lat1); // 纬度差，转换为弧度
+  const dLon = deg2rad(lon2 - lon1); // 经度差，转换为弧度
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c; // 距离，单位：千米
+  return distance;
+};

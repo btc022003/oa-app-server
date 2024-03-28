@@ -14,6 +14,7 @@ import { RolesModule } from './api/v1/roles/roles.module';
 import { ArticleCategoriesModule } from './api/v1/article-categories/article-categories.module';
 import { ArticlesModule } from './api/v1/articles/articles.module';
 import { DepartmentsModule } from './api/v1/departments/departments.module';
+import { CheckPositionsModule } from './api/v1/check_positions/check_positions.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DepartmentsModule } from './api/v1/departments/departments.module';
     ArticleCategoriesModule,
     ArticlesModule,
     DepartmentsModule,
+    CheckPositionsModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService, CommonService],
