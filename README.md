@@ -14,6 +14,16 @@ npm run start:dev # 启动项目
 # 接口文档地址为 http://localhost:3000/docs
 ```
 
+**如果执行初始化数据库操作失败，记得设置prisma的镜像地址**
+
+```bash
+# mac或者linux在终端中直接执行就好
+export PRISMA_ENGINES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
+
+# windows在powershell中执行
+$Env:PRISMA_ENGINES_MIRROR='https://registry.npmmirror.com/-/binary/prisma'
+```
+
 ## 数据库ER图
 
 ![](docs/er.gif)
