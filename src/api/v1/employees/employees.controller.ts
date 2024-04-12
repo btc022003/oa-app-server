@@ -23,7 +23,7 @@ export class EmployeesController extends BaseController {
   }
 
   @ApiOperation({
-    summary: '获取当前登录的用户信息',
+    summary: '获取提交请假时候，负责审批的人的数据',
   })
   @Get('user/leave_checkers')
   loadLeaveChecksInfo() {
