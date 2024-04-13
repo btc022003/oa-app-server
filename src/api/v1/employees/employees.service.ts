@@ -49,7 +49,7 @@ export class EmployeesService extends BaseService {
     return this.prisma.employee.update({
       where: { id },
       data: {
-        password: '123456',
+        password: encodePwd('123456'),
       },
     });
   }
