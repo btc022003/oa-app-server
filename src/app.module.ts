@@ -39,6 +39,7 @@ export class AppModule {
       .exclude(
         { path: '/api/v1/auth/login', method: RequestMethod.ALL },
         { path: '/api/v1/auth/logout', method: RequestMethod.ALL },
+        { path: '/api/v1/common/*', method: RequestMethod.ALL },
       )
       .forRoutes(...['/api/v1/*']); // 使用中间件
   }
