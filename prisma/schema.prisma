@@ -83,10 +83,10 @@ model PermissionsOnRoles {
 
 // 出勤记录
 model Attendance {
-  id         String   @id @default(uuid())
-  remarks    String   @default("")
-  employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String   @map("employee_id") // 员工id
+  id         String    @id @default(uuid())
+  remarks    String    @default("")
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?   @map("employee_id") // 员工id
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -98,9 +98,9 @@ model Attendance {
 model Leave {
   id String @id @default(uuid())
 
-  employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String   @map("employee_id") // 员工id
-  desc       String   @default("")
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?   @map("employee_id") // 员工id
+  desc       String    @default("")
 
   startTime       DateTime      @map("start_time")
   endTime         DateTime      @map("end_time")
@@ -120,14 +120,14 @@ model LeaveCheckLog {
 
   leave Leave? @relation(fields: [leaveId], references: [id], onDelete: Cascade) // 请假记录
 
-  owner   Employee @relation(fields: [employeeId], references: [id]) // 审批人
-  lev     Int      @default(1)
-  isCheck Boolean  @default(false) @map("is_check") // 是否审批
+  owner   Employee? @relation(fields: [employeeId], references: [id]) // 审批人
+  lev     Int       @default(1)
+  isCheck Boolean   @default(false) @map("is_check") // 是否审批
 
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   leaveId    String?  @map("leave_id")
-  employeeId String   @map("employee_id")
+  employeeId String?  @map("employee_id")
 
   @@map("leave_check_logs")
 }
