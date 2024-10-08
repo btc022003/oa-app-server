@@ -100,7 +100,7 @@ export class LeavesController extends BaseController {
   @ApiOperation({
     summary: '员工请假审批',
   })
-  @Post('user/leave')
+  @Post('user/leave_check')
   checkLeaveLog(@Req() req, @Body() data: CheckLog) {
     //
     return this.leavesService.checkLog(data.logId, data.isCheck, req.user.id);
